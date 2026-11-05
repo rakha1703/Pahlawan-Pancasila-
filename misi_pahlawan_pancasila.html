@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misi Pahlawan Pancasila: Petualangan Hak & Kewajiban</title>
+
+    <!-- Tailwind CSS & Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#FF4B4B',
+                            yellow: '#FFC800',
+                            green: '#58CC02',
+                            blue: '#1CB0F6',
+                            purple: '#CE82FF',
+                            orange: '#FF9600',
+                            dark: '#2B2D42'
+                        }
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        nunito: ['Nunito', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #F7F9FC;
+            background-image: radial-gradient(#E2E8F0 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        h1, h2, h3, .font-title {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .btn-bounce {
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        .btn-bounce:active {
+            transform: translateY(4px);
+            box-shadow: none !important;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 3px solid #E2E8F0;
+        }
+        .pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        /* Printable Certificate Custom CSS */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-certificate, #printable-certificate * { visibility: visible; }
+            #printable-certificate {
+                position: absolute;
+                left: 0; top: 0;
+                width: 100%; height: 100%;
+                margin: 0; padding: 20px;
+                border: 10px solid #FFC800 !important;
+            }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between overflow-x-hidden">
+
+    <!-- TOP AUDIO CONTROL & HEADER NAV -->
+    <header class="w-full max-w-5xl mx-auto p-4 flex justify-between items-center z-20">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="goToHome()">
+            <div class="w-10 h-10 bg-brand-red text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg border-b-4 border-red-700">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <span class="font-title text-xl md:text-2xl font-bold text-slate-800 tracking-wide">Pahlawan Pancasila</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="bgm-toggle" onclick="toggleBGM()" class="bg-white hover:bg-slate-100 text-slate-700 border-2 border-slate-300 font-bold p-2.5 rounded-2xl shadow-sm transition flex items-center gap-2">
+                <i id="bgm-icon" class="fa-solid fa-volume-xmark text-brand-red text-lg"></i>
+                <span class="text-xs hidden md:inline font-bold">Musik</span>
+            </button>
+            <div id="user-badge-header" class="hidden bg-white border-2 border-slate-200 rounded-2xl px-3 py-1.5 flex items-center gap-2 shadow-sm">
+                <span id="header-avatar" class="text-xl">🦸‍♂️</span>
+                <div>
+                    <p id="header-username" class="text-xs font-bold leading-tight text-slate-700">Pemain</p>
+                    <p id="header-userclass" class="text-[10px] text-slate-500 font-semibold">Kelas -</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN GAME CONTAINER -->
+    <main class="w-full max-w-4xl mx-auto px-4 py-2 flex-grow flex flex-col justify-center items-center relative z-10">
+        
+        <!-- SECTION 1: HOMEPAGE / MENU UTAMA -->
+        <section id="sec-home" class="w-full flex flex-col items-center text-center animate-fade-in">
+            <div class="inline-block bg-brand-yellow/20 text-brand-orange border-2 border-brand-yellow px-4 py-1.5 rounded-full font-bold text-sm mb-4 animate-bounce">
+                🇮🇩 Pendidikan Pancasila SD Kelas 3-4
+            </div>
+            <h1 class="font-title text-4xl md:text-6xl font-black text-slate-800 mb-2 leading-tight tracking-tight">
+                MISI PAHLAWAN <span class="text-brand-red">PANCASILA</span>
+            </h1>
+            <p class="text-base md:text-lg text-slate-600 font-semibold mb-6 max-w-xl">
+                Petualangan Menyelamatkan Negeri dengan Memahami <span class="text-brand-blue font-bold">Hak</span> dan <span class="text-brand-green font-bold">Kewajiban</span>!
+            </p>
+
+            <!-- Hero Mascot Card -->
+            <div class="glass-card rounded-3xl p-6 mb-8 shadow-xl max-w-md w-full relative overflow-hidden flex flex-col items-center">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand-yellow/30 rounded-full blur-xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-brand-blue/30 rounded-full blur-xl"></div>
+                
+                <div class="w-28 h-28 bg-gradient-to-tr from-brand-yellow to-brand-orange rounded-full flex items-center justify-center text-6xl shadow-inner border-4 border-white mb-3 pulse-slow">
+                    🦅
+                </div>
+                <h3 class="font-title text-xl font-bold text-slate-800">Siap Jadi Pahlawan Cilik?</h3>
+                <p class="text-xs text-slate-500 mt-1">Selesaikan 5 Level Tantangan & Kumpulkan Skor Tertinggi!</p>
+            </div>
+
+            <!-- Main Menu Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md">
+                <button onclick="openRegistrationModal()" class="sm:col-span-2 bg-brand-green hover:bg-green-500 text-white font-title text-xl font-bold py-4 px-6 rounded-2xl shadow-[0_6px_0_#3f9701] btn-bounce flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-play text-2xl"></i> MULAI PETUALANGAN
+                </button>
+                <button onclick="showLeaderboard()" class="bg-brand-blue hover:bg-blue-400 text-white font-title text-lg font-bold py-3 px-4 rounded-2xl shadow-[0_5px_0_#0f84bc] btn-bounce flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-trophy text-brand-yellow"></i> Peringkat
+                </button>
+                <button onclick="showInstructions()" class="bg-brand-purple hover:bg-purple-400 text-white font-title text-lg font-bold py-3 px-4 rounded-2xl shadow-[0_5px_0_#9f56cb] btn-bounce flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> Petunjuk
+                </button>
+                <button onclick="openTeacherAuthModal()" class="sm:col-span-2 bg-slate-700 hover:bg-slate-800 text-white font-title text-base font-bold py-2.5 px-4 rounded-2xl shadow-[0_4px_0_#1e293b] btn-bounce flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-solid fa-user-shield text-brand-yellow"></i> AREA KHUSUS GURU
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MAP / MAP LEVEL SELECTION -->
+        <section id="sec-map" class="w-full max-w-2xl hidden animate-fade-in flex flex-col items-center">
+            <div class="w-full bg-white rounded-3xl p-6 shadow-xl border-4 border-slate-200 mb-6">
+                <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-slate-100">
+                    <div>
+                        <h2 class="font-title text-2xl font-bold text-slate-800">Peta Misi Pahlawan</h2>
+                        <p class="text-xs text-slate-500">Pilih level yang terbuka untuk melanjutkan!</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs font-bold text-slate-400 block">TOTAL SKOR</span>
+                        <span id="map-total-score" class="font-title text-2xl font-black text-brand-orange">0</span>
+                    </div>
+                </div>
+
+                <!-- Level Buttons Grid / Trail -->
+                <div id="level-buttons-container" class="space-y-4 py-2">
+                    <!-- Dynamic rendering from JS -->
+                </div>
+            </div>
+
+            <button onclick="goToHome()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 px-6 rounded-2xl text-sm transition">
+                <i class="fa-solid fa-house mr-1"></i> Kembali ke Menu Utama
+            </button>
+        </section>
+
+        <!-- SECTION 3: GAMEPLAY ARENA -->
+        <section id="sec-gameplay" class="w-full max-w-2xl hidden animate-fade-in">
+            <!-- Header Bar Game -->
+            <div class="bg-white rounded-2xl p-4 shadow-md border-2 border-slate-200 mb-4 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <button onclick="confirmExitLevel()" class="text-slate-400 hover:text-brand-red text-xl"><i class="fa-solid fa-circle-xmark"></i></button>
+                    <div>
+                        <span id="game-level-badge" class="bg-brand-purple text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Level 1</span>
+                        <h3 id="game-level-title" class="font-title text-lg font-bold text-slate-800 leading-none mt-1">Gerbang Pengetahuan</h3>
+                    </div>
+                </div>
+                <!-- Timer Box (Only for Level 5 or optional) -->
+                <div id="timer-box" class="hidden bg-red-50 border-2 border-red-200 px-3 py-1 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-stopwatch text-brand-red animate-pulse"></i>
+                    <span id="timer-text" class="font-title text-xl font-bold text-brand-red">15s</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-[10px] font-bold text-slate-400 block">SKOR GAME</span>
+                    <span id="game-current-score" class="font-title text-xl font-black text-brand-green">0</span>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-200 h-3.5 rounded-full mb-4 overflow-hidden p-0.5 border border-slate-300">
+                <div id="game-progress-bar" class="bg-gradient-to-r from-brand-blue to-brand-green h-full rounded-full transition-all duration-300 w-0"></div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="glass-card rounded-3xl p-6 shadow-xl relative min-h-[360px] flex flex-col justify-between">
+                <div>
+                    <!-- Question Counter & Category Badge -->
+                    <div class="flex justify-between items-center mb-3">
+                        <span id="question-counter" class="text-xs font-bold text-slate-400">Soal 1 / 10</span>
+                        <span id="question-type-tag" class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full border border-slate-200">
+                            Pilihan Ganda
+                        </span>
+                    </div>
+
+                    <!-- Question Image (If available) -->
+                    <div id="question-image-container" class="hidden mb-4 rounded-2xl overflow-hidden max-h-48 flex justify-center bg-slate-100 border border-slate-200 p-2">
+                        <img id="question-image" src="" alt="Ilustrasi Soal" class="object-contain h-40 rounded-xl">
+                    </div>
+
+                    <!-- Question Text -->
+                    <h2 id="question-text" class="font-title text-xl md:text-2xl font-bold text-slate-800 leading-snug mb-6">
+                        Memuat pertanyaan...
+                    </h2>
+
+                    <!-- Options Grid -->
+                    <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Instant Feedback Box -->
+                <div id="feedback-box" class="hidden p-4 rounded-2xl border-2 animate-fade-in">
+                    <div class="flex items-start gap-3">
+                        <div id="feedback-icon-bg" class="w-10 h-10 rounded-xl flex items-center justify-center text-white text-xl shrink-0">
+                            <i id="feedback-icon" class="fa-solid fa-check"></i>
+                        </div>
+                        <div>
+                            <h4 id="feedback-title" class="font-title font-bold text-lg leading-none mb-1">HEBAT! KAMU BENAR!</h4>
+                            <p id="feedback-desc" class="text-xs font-semibold leading-relaxed">Penjelasan jawaban singkat di sini...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button Next -->
+                <button id="btn-next-question" onclick="nextQuestion()" class="hidden w-full bg-brand-green hover:bg-green-500 text-white font-title text-lg font-bold py-3.5 px-6 rounded-2xl shadow-[0_5px_0_#3f9701] btn-bounce mt-4">
+                    LANJUTKAN <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 4: LEVEL COMPLETED SUMMARY -->
+        <section id="sec-summary" class="w-full max-w-md hidden animate-fade-in text-center">
+            <div class="glass-card rounded-3xl p-8 shadow-2xl relative overflow-hidden flex flex-col items-center">
+                <div class="w-24 h-24 bg-brand-yellow rounded-full flex items-center justify-center text-5xl mb-4 shadow-lg border-4 border-white animate-bounce">
+                    🏆
+                </div>
+                <h2 class="font-title text-3xl font-black text-slate-800 mb-1">LEVEL SELESAI!</h2>
+                <p id="summary-subtitle" class="text-sm font-semibold text-slate-500 mb-6">Kamu menyelesaikan tantangan ini dengan gemilang!</p>
+
+                <div class="w-full bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-3 mb-6">
+                    <div class="flex justify-between items-center text-sm font-bold">
+                        <span class="text-slate-500"><i class="fa-solid fa-circle-check text-brand-green mr-2"></i>Benar</span>
+                        <span id="summary-correct" class="text-slate-800 font-title text-lg">0 / 10</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm font-bold">
+                        <span class="text-slate-500"><i class="fa-solid fa-star text-brand-yellow mr-2"></i>Bonus Poin</span>
+                        <span id="summary-bonus" class="text-slate-800 font-title text-lg">+100</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm font-bold pt-2 border-t border-slate-200">
+                        <span class="text-slate-700">Total Perolehan</span>
+                        <span id="summary-level-score" class="text-brand-orange font-title text-2xl font-black">0 Poin</span>
+                    </div>
+                </div>
+
+                <button onclick="returnToMap()" class="w-full bg-brand-blue hover:bg-blue-400 text-white font-title text-lg font-bold py-3.5 px-6 rounded-2xl shadow-[0_5px_0_#0f84bc] btn-bounce mb-3">
+                    KEMBALI KE PETA MISI
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 5: GAME COMPLETE / CERTIFICATE -->
+        <section id="sec-finish" class="w-full max-w-xl hidden animate-fade-in text-center">
+            <div id="printable-certificate" class="glass-card rounded-3xl p-8 shadow-2xl relative border-8 border-brand-yellow bg-white">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs font-bold text-slate-400">SERTIFIKAT KELULUSAN</span>
+                    <span class="text-xs font-bold text-brand-red">ID: <span id="cert-id">MISI-000</span></span>
+                </div>
+                
+                <div class="text-4xl mb-2">🦅</div>
+                <h2 class="font-title text-3xl font-black text-slate-800 uppercase tracking-wide">PAHLAWAN PANCASILA</h2>
+                <p class="text-xs text-slate-500 font-semibold mb-6">Diberikan secara resmi kepada:</p>
+
+                <div class="bg-amber-50 border-2 border-dashed border-amber-300 rounded-2xl py-4 px-6 mb-6">
+                    <h3 id="cert-user-name" class="font-title text-3xl font-bold text-brand-red mb-1">NAMA SISWA</h3>
+                    <p id="cert-user-class" class="text-xs font-bold text-slate-600">Siswa SD Kelas X</p>
+                </div>
+
+                <p class="text-xs text-slate-600 leading-relaxed mb-6">
+                    Telah berhasil menyelesaikan seluruh 5 Level Tantangan dan membuktikan pemahaman yang sangat baik dalam melaksanakan <span class="font-bold text-slate-800">Hak dan Kewajiban</span> sebagai warga negara yang bertanggung jawab.
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-6">
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase block">TOTAL SKOR AKHIR</span>
+                        <span id="cert-final-score" class="font-title text-2xl font-black text-brand-green">0</span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase block">LENCANA DILUASKAN</span>
+                        <span class="font-title text-lg font-bold text-brand-purple"> Master Pancasila</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-around items-center pt-4 border-t border-slate-200 text-left">
+                    <div>
+                        <p class="text-[10px] text-slate-400 font-bold">TANGGAL SELESAI</p>
+                        <p id="cert-date" class="text-xs font-bold text-slate-700">1 Januari 2026</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] text-slate-400 font-bold">STATUS</p>
+                        <p class="text-xs font-bold text-brand-green">✓ TERVERIFIKASI ONLINE</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-col sm:flex-row gap-3 w-full no-print">
+                <button onclick="window.print()" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-title text-base font-bold py-3.5 px-4 rounded-2xl shadow-[0_4px_0_#0f172a] btn-bounce flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-print"></i> Cetak / Simpan PDF
+                </button>
+                <button onclick="showLeaderboard()" class="flex-1 bg-brand-yellow hover:bg-yellow-400 text-slate-900 font-title text-base font-bold py-3.5 px-4 rounded-2xl shadow-[0_4px_0_#d9a700] btn-bounce flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-trophy"></i> Lihat Papan Peringkat
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 6: LEADERBOARD BOARD -->
+        <section id="sec-leaderboard" class="w-full max-w-2xl hidden animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 shadow-xl border-4 border-slate-200 mb-6">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-slate-100">
+                    <div>
+                        <h2 class="font-title text-2xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-trophy text-brand-yellow"></i> Papan Peringkat Pahlawan
+                        </h2>
+                        <p class="text-xs text-slate-500">Peringkat siswa dengan total skor tertinggi di seluruh Indonesia!</p>
+                    </div>
+                    <button onclick="loadLeaderboardData()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-3 py-1.5 rounded-xl border border-slate-300">
+                        <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh
+                    </button>
+                </div>
+
+                <!-- Leaderboard Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-[11px] font-bold text-slate-400 uppercase border-b border-slate-200">
+                                <th class="py-2 px-3">#</th>
+                                <th class="py-2 px-3">Pahlawan Cilik</th>
+                                <th class="py-2 px-3">Kelas</th>
+                                <th class="py-2 px-3 text-center">Benar</th>
+                                <th class="py-2 px-3 text-right">Total Skor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-tbody" class="divide-y divide-slate-100 text-sm font-semibold">
+                            <!-- Rendered JS -->
+                            <tr>
+                                <td colspan="5" class="py-8 text-center text-slate-400 font-normal">Memuat data papan peringkat...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button onclick="goToHome()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 px-6 rounded-2xl text-sm transition">
+                    <i class="fa-solid fa-house mr-1"></i> Kembali ke Menu Utama
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 7: DASHBOARD GURU -->
+        <section id="sec-teacher" class="w-full max-w-4xl hidden animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 shadow-xl border-4 border-slate-200 mb-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-4 border-b-2 border-slate-100 gap-4">
+                    <div>
+                        <span class="bg-brand-red text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Panel Pengawas</span>
+                        <h2 class="font-title text-2xl font-bold text-slate-800 mt-1">Dashboard Area Guru</h2>
+                        <p class="text-xs text-slate-500">Pantau perkembangan hasil belajar dan unduh laporan siswa.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="exportToCSV()" class="bg-brand-green hover:bg-green-600 text-white font-title text-xs font-bold py-2 px-3 rounded-xl shadow-sm btn-bounce flex items-center gap-1">
+                            <i class="fa-solid fa-file-excel"></i> Unduh CSV / Excel
+                        </button>
+                        <button onclick="resetLeaderboardConfirm()" class="bg-red-500 hover:bg-red-600 text-white font-title text-xs font-bold py-2 px-3 rounded-xl shadow-sm btn-bounce flex items-center gap-1">
+                            <i class="fa-solid fa-trash"></i> Reset Data
+                        </button>
+                        <button onclick="goToHome()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-title text-xs font-bold py-2 px-3 rounded-xl">
+                            Keluar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Summary Row -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-blue-50 border border-blue-200 p-4 rounded-2xl">
+                        <span class="text-[10px] font-bold text-blue-500 uppercase block">Total Siswa Main</span>
+                        <span id="teacher-stat-total" class="font-title text-2xl font-black text-blue-700">0</span>
+                    </div>
+                    <div class="bg-green-50 border border-green-200 p-4 rounded-2xl">
+                        <span class="text-[10px] font-bold text-green-500 uppercase block">Rata-Rata Skor</span>
+                        <span id="teacher-stat-avg" class="font-title text-2xl font-black text-green-700">0</span>
+                    </div>
+                    <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-2xl">
+                        <span class="text-[10px] font-bold text-yellow-600 uppercase block">Nilai Tertinggi</span>
+                        <span id="teacher-stat-high" class="font-title text-2xl font-black text-yellow-700">0</span>
+                    </div>
+                    <div class="bg-purple-50 border border-purple-200 p-4 rounded-2xl">
+                        <span class="text-[10px] font-bold text-purple-500 uppercase block">Tingkat Kelulusan</span>
+                        <span id="teacher-stat-pass" class="font-title text-2xl font-black text-purple-700">100%</span>
+                    </div>
+                </div>
+
+                <!-- Detailed Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-[11px] font-bold text-slate-400 uppercase border-b border-slate-200 bg-slate-50">
+                                <th class="py-2.5 px-3">Nama Siswa</th>
+                                <th class="py-2.5 px-3">Kelas</th>
+                                <th class="py-2.5 px-3 text-center">Level Terakhir</th>
+                                <th class="py-2.5 px-3 text-center">Benar / Salah</th>
+                                <th class="py-2.5 px-3 text-right">Skor Total</th>
+                                <th class="py-2.5 px-3 text-center">Waktu Selesai</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teacher-tbody" class="divide-y divide-slate-100 text-xs font-semibold">
+                            <!-- Rendered JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full text-center py-4 text-xs font-semibold text-slate-400 z-10">
+        © 2026 Misi Pahlawan Pancasila • Media Pembelajaran Interaktif SD Kelas 3-4
+    </footer>
+
+    <!-- MODAL 1: REGISTRASI SISWA -->
+    <div id="modal-reg" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border-4 border-slate-200 animate-scale-up">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-brand-green/20 text-brand-green rounded-2xl flex items-center justify-center text-3xl mx-auto mb-2">
+                    <i class="fa-solid fa-id-card"></i>
+                </div>
+                <h3 class="font-title text-2xl font-bold text-slate-800">Identitas Pahlawan Cilik</h3>
+                <p class="text-xs text-slate-500">Isi datamu terlebih dahulu sebelum memulai misi!</p>
+            </div>
+
+            <form onsubmit="handleStartGame(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Nama Lengkap / Panggilan <span class="text-red-500">*</span></label>
+                    <input type="text" id="reg-name" required placeholder="Contoh: Budi Santoso" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-blue outline-none font-bold text-slate-700">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Kelas <span class="text-red-500">*</span></label>
+                        <select id="reg-class" required class="w-full px-3 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-blue outline-none font-bold text-slate-700 bg-white">
+                            <option value="Kelas 3A">Kelas 3A</option>
+                            <option value="Kelas 3B">Kelas 3B</option>
+                            <option value="Kelas 4A">Kelas 4A</option>
+                            <option value="Kelas 4B">Kelas 4B</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Pilih Avatar</label>
+                        <select id="reg-avatar" onchange="updateAvatarPreview(this.value)" class="w-full px-3 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-blue outline-none font-bold text-slate-700 bg-white">
+                            <option value="🦸‍♂️">🦸‍♂️ Ksatria</option>
+                            <option value="🦸‍♀️">🦸‍♀️ Pahlawan</option>
+                            <option value="🧑‍🚀">🧑‍🚀 Penjelajah</option>
+                            <option value="🧙‍♂️">🧙‍♂️ Bijak</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex gap-3">
+                    <button type="button" onclick="closeRegistrationModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-title font-bold py-3 rounded-xl">Batal</button>
+                    <button type="submit" class="flex-1 bg-brand-green hover:bg-green-500 text-white font-title text-lg font-bold py-3 rounded-xl shadow-[0_4px_0_#3f9701] btn-bounce">
+                        MULAI MISI <i class="fa-solid fa-rocket ml-1"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: AUTH GURU (PIN) -->
+    <div id="modal-teacher-auth" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border-4 border-slate-200">
+            <div class="text-center mb-4">
+                <div class="w-12 h-12 bg-slate-100 text-slate-700 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-2">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="font-title text-xl font-bold text-slate-800">Akses Khusus Guru</h3>
+                <p class="text-xs text-slate-500">Masukkan PIN Rahasia Guru (Default PIN: <b class="text-slate-800">1234</b>)</p>
+            </div>
+
+            <form onsubmit="handleTeacherLogin(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="teacher-pin" required maxlength="6" placeholder="Masukkan PIN..." class="w-full text-center tracking-widest text-2xl px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-purple outline-none font-bold">
+                </div>
+                <p id="pin-error-msg" class="text-xs text-red-500 font-bold text-center hidden">PIN Salah! Silakan coba lagi.</p>
+                <div class="flex gap-2">
+                    <button type="button" onclick="closeTeacherAuthModal()" class="flex-1 bg-slate-100 text-slate-600 font-title font-bold py-2.5 rounded-xl">Batal</button>
+                    <button type="submit" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-title font-bold py-2.5 rounded-xl shadow-[0_4px_0_#0f172a] btn-bounce">Masuk</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: PETUNJUK PERMAINAN -->
+    <div id="modal-instructions" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl border-4 border-slate-200 max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-slate-100">
+                <h3 class="font-title text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-brand-purple"></i> Petunjuk Permainan
+                </h3>
+                <button onclick="closeInstructions()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="space-y-4 text-xs font-semibold text-slate-600 leading-relaxed">
+                <div class="bg-purple-50 p-3 rounded-xl border border-purple-100">
+                    <h4 class="font-title font-bold text-purple-800 text-sm mb-1">🎯 Tujuan Permainan</h4>
+                    <p>Membantu Indonesia menjadi negara aman dan damai dengan menjawab pertanyaan seputar Hak dan Kewajiban anak di rumah, sekolah, dan masyarakat!</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="font-title font-bold text-slate-800 text-sm">⭐ Perhitungan Skor & Bonus:</h4>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li><b>Jawaban Benar:</b> 100 Poin per soal.</li>
+                        <li><b>Bonus Kecepatan:</b> Hingga 50 Poin tambahan jika menjawab cepat!</li>
+                        <li><b>Selesai 1 Level:</b> Bonus +100 Poin.</li>
+                        <li><b>Selesai 5 Level:</b> Bonus Pahlawan Sejati +250 Poin!</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="font-title font-bold text-slate-800 text-sm">🗺️ 5 Level Petualangan:</h4>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li><b>Gerbang Pengetahuan:</b> Mengenal Konsep Hak & Kewajiban.</li>
+                        <li><b>Detektif Sekolah:</b> Hak & Kewajiban di Lingkungan Sekolah.</li>
+                        <li><b>Pahlawan Keluarga:</b> Hak & Kewajiban di Rumah.</li>
+                        <li><b>Tantangan Kehidupan:</b> Peran di Lingkungan Masyarakat.</li>
+                        <li><b>Duel Pahlawan Pancasila:</b> Tantangan HOTS Berwaktu!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <button onclick="closeInstructions()" class="w-full bg-brand-purple hover:bg-purple-500 text-white font-title text-base font-bold py-3 rounded-xl mt-6 shadow-[0_4px_0_#9f56cb] btn-bounce">
+                SAYA MENGERTI!
+            </button>
+        </div>
+    </div>
+
+    <!-- FIREBASE SDK INGESTION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, getDocs, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global environment fallback
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'pancasila-hero-game-default';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "demo-api-key",
+            authDomain: "demo-project.firebaseapp.com",
+            projectId: "demo-project",
+            storageBucket: "demo-project.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
+        };
+
+        let app, db, auth;
+        let isFirebaseActive = false;
+
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            
+            // Auth initialization
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+            isFirebaseActive = true;
+            console.log("Firebase initialized successfully!");
+        } catch (err) {
+            console.warn("Firestore running in offline local fallback mode:", err);
+            isFirebaseActive = false;
+        }
+
+        // Expose Firebase functions globally for main game logic
+        window.saveScoreToCloud = async function(userSession) {
+            if (!isFirebaseActive || !auth.currentUser) {
+                saveToLocalStorage(userSession);
+                return;
+            }
+            try {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
+                const docRef = doc(colRef, userSession.id);
+                await setDoc(docRef, {
+                    ...userSession,
+                    updatedAt: new Date().toISOString()
+                });
+            } catch (e) {
+                console.error("Cloud save fallback:", e);
+                saveToLocalStorage(userSession);
+            }
+        };
+
+        window.fetchCloudLeaderboard = async function(callback) {
+            if (!isFirebaseActive || !auth.currentUser) {
+                callback(getLocalLeaderboard());
+                return;
+            }
+            try {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
+                onSnapshot(colRef, (snapshot) => {
+                    const list = [];
+                    snapshot.forEach((doc) => list.push(doc.data()));
+                    // Sort descending by score then ascending by time
+                    list.sort((a, b) => b.totalScore - a.totalScore);
+                    callback(list);
+                }, (error) => {
+                    console.error("Cloud snapshot error:", error);
+                    callback(getLocalLeaderboard());
+                });
+            } catch (e) {
+                callback(getLocalLeaderboard());
+            }
+        };
+
+        window.clearCloudLeaderboard = async function() {
+            if (isFirebaseActive && auth.currentUser) {
+                try {
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
+                    const snapshot = await getDocs(colRef);
+                    snapshot.forEach(async (d) => {
+                        await deleteDoc(doc(colRef, d.id));
+                    });
+                } catch (err) {
+                    console.error("Error resetting Firestore data:", err);
+                }
+            }
+            localStorage.removeItem('pancasila_game_leaderboard');
+        };
+    </script>
+
+    <!-- GAME LOGIC SCRIPT -->
+    <script>
+        /* ==========================================================================
+           1. SOUND SYNTHESIZER (WEB AUDIO API)
+           ========================================================================== */
+        class SoundEffects {
+            constructor() {
+                this.ctx = null;
+                this.bgmInterval = null;
+                this.isMuted = false;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            playCorrect() {
+                if (this.isMuted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+                osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.3); // C6
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            }
+
+            playWrong() {
+                if (this.isMuted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now); // A3
+                osc.frequency.linearRampToValueAtTime(130, now + 0.3); // C3
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            }
+
+            playFanfare() {
+                if (this.isMuted) return;
+                this.init();
+                const notes = [523.25, 659.25, 783.99, 1046.50, 880, 1046.50];
+                const times = [0, 0.15, 0.3, 0.45, 0.6, 0.75];
+                notes.forEach((freq, idx) => {
+                    const now = this.ctx.currentTime + times[idx];
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                });
+            }
+        }
+
+        const sfx = new SoundEffects();
+
+        function toggleBGM() {
+            sfx.isMuted = !sfx.isMuted;
+            const icon = document.getElementById('bgm-icon');
+            if (sfx.isMuted) {
+                icon.className = 'fa-solid fa-volume-xmark text-brand-red text-lg';
+            } else {
+                icon.className = 'fa-solid fa-volume-high text-brand-green text-lg';
+                sfx.playCorrect();
+            }
+        }
+
+        /* ==========================================================================
+           2. QUESTION BANK (50 QUESTIONS COMPREHENSIVE)
+           ========================================================================== */
+        const QUESTION_BANK = {
+            level1: [
+                {
+                    q: "Apa yang dimaksud dengan 'Hak'?",
+                    options: ["Sesuatu yang harus kita kerjakan", "Sesuatu yang mutlak kita terima atau dapatkan", "Sesuatu yang dilarang agama", "Hukuman dari guru"],
+                    answer: 1,
+                    desc: "Hak adalah segala sesuatu yang harus diterima atau didapatkan oleh setiap orang sejak lahir."
+                },
+                {
+                    q: "Apa yang dimaksud dengan 'Kewajiban'?",
+                    options: ["Sesuatu yang harus dilakukan dengan penuh tanggung jawab", "Hadiah dari orang tua", "Menerima uang saku", "Bermain sepuasnya"],
+                    answer: 0,
+                    desc: "Kewajiban adalah segala sesuatu yang harus dilaksanakan dengan penuh rasa tanggung jawab."
+                },
+                {
+                    q: "Mana hubungan yang tepat antara hak dan kewajiban?",
+                    options: ["Hak dulu baru kewajiban", "Kewajiban harus dilaksanakan sebelum menuntut hak", "Hanya menuntut hak tanpa kewajiban", "Kewajiban boleh diabaikan"],
+                    answer: 1,
+                    desc: "Kewajiban harus dilaksanakan terlebih dahulu agar kita mendapatkan hak dengan baik."
+                },
+                {
+                    q: "Mendapatkan nomor identitas diri dan kewarganegaraan merupakan contoh...",
+                    options: ["Hak Anak", "Kewajiban Anak", "Hukuman", "Tugas Sekolah"],
+                    answer: 0,
+                    desc: "Setiap anak berhak atas identitas diri dan status kewarganegaraan."
+                },
+                {
+                    q: "Mematuhi aturan yang berlaku di rumah maupun di sekolah merupakan...",
+                    options: ["Hak", "Kewajiban", "Hadiah", "Pilihan Bebas"],
+                    answer: 1,
+                    desc: "Mematuhi aturan adalah kewajiban untuk menjaga ketertiban."
+                },
+                {
+                    q: "Manakah tindakan yang menyeimbangkan hak dan kewajiban?",
+                    options: ["Minta saku banyak tapi malas belajar", "Belajar rajin lalu mendapatkan waktu bermain", "Tidur seharian", "Merusak fasilitas umum"],
+                    answer: 1,
+                    desc: "Melaksanakan kewajiban belajar terlebih dahulu sebelum menikmati hak bermain."
+                },
+                {
+                    q: "Apa akibat jika seseorang hanya menuntut hak tanpa melakukan kewajiban?",
+                    options: ["Hidup menjadi tenteram", "Terjadi ketidakadilan dan perselisihan", "Disukai banyak teman", "Mendapatkan bonus"],
+                    answer: 1,
+                    desc: "Mengabaikan kewajiban dapat merugikan orang lain dan menimbulkan ketidakadilan."
+                },
+                {
+                    q: "Manakah yang TERMASUK contoh Hak Anak?",
+                    options: ["Merapikan tempat tidur", "Mendapatkan perlindungan dari bahaya", "Mencuci piring sendiri", "Membantu adik"],
+                    answer: 1,
+                    desc: "Perlindungan dari bahaya dan kekerasan adalah hak mendasar bagi anak."
+                },
+                {
+                    q: "Manakah yang TERMASUK contoh Kewajiban Anak?",
+                    options: ["Mendapatkan makanan bergizi", "Menghormati orang yang lebih tua", "Mendapatkan pakaian layak", "Bermain bersama teman"],
+                    answer: 1,
+                    desc: "Menghormati orang tua dan orang lebih tua adalah kewajiban moral."
+                },
+                {
+                    q: "Pelaksanaan hak dan kewajiban yang seimbang sesuai dengan Pancasila sila ke-...",
+                    options: ["Sila ke-1", "Sila ke-2", "Sila ke-5", "Sila ke-3"],
+                    answer: 2,
+                    desc: "Sila ke-5 menekankan Keadilan Sosial, termasuk keseimbangan hak dan kewajiban."
+                }
+            ],
+            level2: [
+                {
+                    q: "Mendapatkan bimbingan dan pelajaran dari guru di kelas adalah contoh...",
+                    options: ["Hak siswa di sekolah", "Kewajiban siswa di sekolah", "Larangan sekolah", "Hukuman sekolah"],
+                    answer: 0,
+                    desc: "Mendapatkan ilmu dan bimbingan guru merupakan hak utama siswa di sekolah."
+                },
+                {
+                    q: "Menjaga kebersihan dan keasrian lingkungan sekolah merupakan...",
+                    options: ["Hak guru saja", "Kewajiban penjaga sekolah saja", "Kewajiban seluruh warga sekolah", "Bukan tugas siapa-siapa"],
+                    answer: 2,
+                    desc: "Menjaga kebersihan sekolah adalah kewajiban bersama seluruh warga sekolah."
+                },
+                {
+                    q: "Ketika bel masuk sekolah berbunyi, tindakan yang mencerminkan kewajiban adalah...",
+                    options: ["Masih asyik main di kantin", "Segera masuk kelas dengan tertib", "Pura-pura tidak mendengar", "Pulang ke rumah"],
+                    answer: 1,
+                    desc: "Tepat waktu masuk kelas adalah bentuk disiplin dan kewajiban siswa."
+                },
+                {
+                    q: "Siswa berhak menggunakan fasilitas perpustakaan sekolah. Apa kewajiban pendampingnya?",
+                    options: ["Mencoret-coret buku perpustakaan", "Merawat dan mengembalikan buku tepat waktu", "Membawa pulang buku tanpa izin", "Makan di dalam perpustakaan"],
+                    answer: 1,
+                    desc: "Kewajiban saat menggunakan fasilitas adalah merawat dan menjaga barang tersebut."
+                },
+                {
+                    q: "Budi melihat sampah plastik berserakan di depan kelasnya. Sikap Budi sebaiknya...",
+                    options: ["Membiarkannya karena bukan sampahnya", "Mengambil dan membuangnya ke tempat sampah", "Menyalahkan temannya", "Melompati sampah tersebut"],
+                    answer: 1,
+                    desc: "Membuang sampah pada tempatnya adalah contoh perilaku bertanggung jawab di sekolah."
+                },
+                {
+                    q: "Memakai seragam sekolah yang rapi sesuai jadwal merupakan...",
+                    options: ["Hak siswa", "Kewajiban siswa", "Bonus dari sekolah", "Keluhan siswa"],
+                    answer: 1,
+                    desc: "Mengenakan seragam rapi adalah tata tertib yang wajib dipatuhi siswa."
+                },
+                {
+                    q: "Manakah yang merupakan HAK siswa di sekolah?",
+                    options: ["Mendapatkan nilai evaluasi yang adil", "Mengerjakan piket kelas", "Mengikuti upacara bendera", "Mendengarkan penjelasan guru"],
+                    answer: 0,
+                    desc: "Mendapatkan nilai dan perlakuan adil dari guru adalah hak setiap siswa."
+                },
+                {
+                    q: "Sikap yang BENAR saat mengikuti Upacara Bendera hari Senin adalah...",
+                    options: ["Mengobrol dengan teman di barisan", "Berdiri tegak dan khidmat", "Bercanda dan tertawa", "Bermain HP"],
+                    answer: 1,
+                    desc: "Berdiri tegak saat upacara adalah kewajiban wujud rasa cinta tanah air."
+                },
+                {
+                    q: "Jika ada teman yang kesulitan memahami pelajaran, tindakan terpuji kita adalah...",
+                    options: ["Ejek karena tidak bisa", "Membantunya belajar bersama", "Biarkan saja", "Melaporkan ke kepala sekolah"],
+                    answer: 1,
+                    desc: "Membantu teman adalah perwujudan toleransi dan kebersamaan di sekolah."
+                },
+                {
+                    q: "Hak berpendapat di kelas saat diskusi dapat dilakukan dengan cara...",
+                    options: ["Berteriak menyela guru", "Mengacungkan tangan dengan sopan sebelum berbicara", "Memaksa teman setuju", "Marah jika pendapat ditolak"],
+                    answer: 1,
+                    desc: "Mengacungkan tangan dan berbicara sopan adalah tata cara berpendapat yang baik."
+                }
+            ],
+            level3: [
+                {
+                    q: "Mendapatkan kasih sayang dan rasa aman dari orang tua merupakan contoh...",
+                    options: ["Hak anak di rumah", "Kewajiban anak di rumah", "Tugas rumah tangga", "Hukuman orang tua"],
+                    answer: 0,
+                    desc: "Setiap anak berhak dicintai, disayangi, dan dilindungi oleh orang tuanya."
+                },
+                {
+                    q: "Setelah selesai bermain di rumah, kewajiban anak adalah...",
+                    options: ["Meninggalkan mainan di lantai", "Merapikan kembali mainan ke tempatnya", "Menyuruh ibu merapikan", "Pergi keluar rumah"],
+                    answer: 1,
+                    desc: "Merapikan mainan sendiri adalah tanggung jawab dan kewajiban anak."
+                },
+                {
+                    q: "Manakah contoh sikap menghormati orang tua di rumah?",
+                    options: ["Berbicara dengan nada kasar", "Mendengarkan nasihat orang tua dengan baik", "Membantah perkataan ayah", "Pura-pura tidur saat dipanggil"],
+                    answer: 1,
+                    desc: "Mendengarkan dan mematuhi nasihat baik orang tua adalah kewajiban anak."
+                },
+                {
+                    q: "Hak anak di rumah untuk menjaga kesehatan tubuh adalah...",
+                    options: ["Mendapatkan makanan bergizi dan bersih", "Makan permen sepuasnya", "Bebas tidak mandi", "Begadang main game"],
+                    answer: 0,
+                    desc: "Mendapatkan makanan bergizi adalah hak untuk menunjang tumbuh tumbuh anak."
+                },
+                {
+                    q: "Membantu ibu membersihkan meja makan setelah makan bersama merupakan bentuk...",
+                    options: ["Pelaksanaan kewajiban di rumah", "Penuntutan hak", "Paksaan yang merugikan", "Peraturan negara"],
+                    answer: 0,
+                    desc: "Membantu pekerjaan rumah tangga ringan adalah bentuk berbakti pada keluarga."
+                },
+                {
+                    q: "Sebelum berangkat ke sekolah, kewajiban siswa kepada orang tua adalah...",
+                    options: ["Langsung lari keluar rumah", "Berpamitan dan bersalaman dengan sopan", "Meminta uang saku berlebihan", "Menangis"],
+                    answer: 1,
+                    desc: "Berpamitan dengan sopan adalah bentuk hormat dan santun kepada orang tua."
+                },
+                {
+                    q: "Adik sedang menangis karena mainannya rusak. Sikap kakak yang baik adalah...",
+                    options: ["Menertawakan adik", "Membantu memperbaiki atau menenangkannya", "Dimarahi", "Meninggalkan adik sendirian"],
+                    answer: 1,
+                    desc: "Menjaga dan menyayangi anggota keluarga adalah kewajiban dalam rumah."
+                },
+                {
+                    q: "Mendapatkan waktu dan tempat yang nyaman untuk belajar di rumah merupakan...",
+                    options: ["Hak anak", "Kewajiban orang tua saja", "Hukuman anak", "Kewajiban anak"],
+                    answer: 0,
+                    desc: "Fasilitas belajar yang layak di rumah adalah hak anak yang disediakan orang tua."
+                },
+                {
+                    q: "Jika rumah dalam keadaan kotor dan berantakan, kita sebaiknya...",
+                    options: ["Membantu membersihkan bersama keluarga", "Menyalahkan orang lain", "Pindah ke rumah tetangga", "Mengotori lagi"],
+                    answer: 0,
+                    desc: "Gotong royong membersihkan rumah adalah kewajiban seluruh anggota keluarga."
+                },
+                {
+                    q: "Manakah yang BUKAN merupakan hak anak di rumah?",
+                    options: ["Mendapatkan pakaian yang layak", "Mendapatkan perlindungan", "Bebas membentak orang tua", "Mendapatkan waktu beristirahat"],
+                    answer: 2,
+                    desc: "Membentak orang tua adalah perilaku tercela dan bukan hak siapapun."
+                }
+            ],
+            level4: [
+                {
+                    q: "Menjaga kebersihan lingkungan tempat tinggal dengan tidak membuang sampah sembarangan adalah...",
+                    options: ["Kewajiban anggota masyarakat", "Hak warga negara", "Tugas presiden saja", "Hukuman RT"],
+                    answer: 0,
+                    desc: "Menjaga kebersihan lingkungan adalah kewajiban seluruh warga masyarakat."
+                },
+                {
+                    q: "Warga masyarakat berhak menghirup udara segar dan bersih. Kewajiban untuk mendukung hak tersebut adalah...",
+                    options: ["Menebang seluruh pohon", "Menanam pohon dan mengurangi pembakaran sampah", "Membakar ban bekas", "Merokok di mana saja"],
+                    answer: 1,
+                    desc: "Menanam pohon (reboisasi) membantu menjaga ketersediaan udara segar."
+                },
+                {
+                    q: "Ketika tetangga sedang beribadah, sikap toleransi yang wajib kita lakukan adalah...",
+                    options: ["Menyanyikan lagu keras-keras", "Menjaga ketenangan dan tidak membuat kegaduhan", "Mengganggu jalannya ibadah", "Menyuarakan klakson"],
+                    answer: 1,
+                    desc: "Menghormati tetangga beribadah adalah kewajiban menjaga kerukunan antarumat beragama."
+                },
+                {
+                    q: "Setiap warga berhak menggunakan jalan raya dengan aman. Kewajiban pengguna jalan adalah...",
+                    options: ["Menerobos lampu merah", "Mematuhi rambu-rambu lalu lintas", "Ngebut di jalanan", "Berjalan di tengah jalan"],
+                    answer: 1,
+                    desc: "Mematuhi rambu lalu lintas menjamin keselamatan diri sendiri dan orang lain."
+                },
+                {
+                    q: "Mengikuti kegiatan kerja bakti membersihkan saluran air di kampung merupakan contoh...",
+                    options: ["Menuntut hak", "Pelaksanaan kewajiban di masyarakat", "Membuang waktu", "Mencari hadiah"],
+                    answer: 1,
+                    desc: "Kerja bakti adalah wujud gotong royong dan kewajiban bermasyarakat."
+                },
+                {
+                    q: "Apabila ada fasilitas umum seperti pos ronda atau taman bermain yang rusak, kita wajib...",
+                    options: ["Makin merusaknya", "Ikut merawat dan tidak merusaknya", "Pura-pura tidak tahu", "Mencoret-coret temboknya"],
+                    answer: 1,
+                    desc: "Menjaga dan merawat fasilitas umum adalah kewajiban bersama."
+                },
+                {
+                    q: "Mendapatkan rasa aman dan damai saat tinggal di lingkungan masyarakat adalah...",
+                    options: ["Hak warga", "Kewajiban warga", "Hukuman warga", "Bukan siapa-siapa"],
+                    answer: 0,
+                    desc: "Setiap warga masyarakat berhak merasa aman dan terlindungi di lingkungannya."
+                },
+                {
+                    q: "Menjenguk tetangga yang sedang sakit merupakan wujud dari sikap...",
+                    options: ["Apatis", "Kepedulian dan kewajiban sosial", "Sombong", "Mencari perhatian"],
+                    answer: 1,
+                    desc: "Peduli pada tetangga menguatkan tali persaudaraan dalam masyarakat."
+                },
+                {
+                    q: "Jika melihat orang yang lebih tua kesulitan menyeberang jalan, tindakan terpuji kita adalah...",
+                    options: ["Menertawakannya", "Membantunya menyeberang dengan hati-hati", "Acuh tak acuh", "Mendahuluinya sambil berlari"],
+                    answer: 1,
+                    desc: "Tolong-menolong merupakan nilai luhur Pancasila di masyarakat."
+                },
+                {
+                    q: "Manakah contoh perbuatan yang MELANGGAR kewajiban di lingkungan masyarakat?",
+                    options: ["Membawa sampah ke tempat penampungan", "Membuang limbah ke sungai", "Menyapa tetangga dengan ramah", "Menjaga ketertiban saat malam hari"],
+                    answer: 1,
+                    desc: "Membuang limbah ke sungai merusak lingkungan dan melanggar kewajiban."
+                }
+            ],
+            level5: [
+                {
+                    q: "[HOTS] Andi bercita-cita menjadi dokter. Di sekolah ia selalu menuntut pelajaran yang baik dari guru, tetapi di rumah ia enggan belajar dan sering membolos. Menurutmu, analisis tindakan Andi adalah...",
+                    options: [
+                        "Andi sudah hebat karena menuntut haknya",
+                        "Andi belum seimbang karena menuntut hak tanpa melaksanakan kewajiban belajar",
+                        "Tindakan Andi sangat benar",
+                        "Orang tua Andi yang salah"
+                    ],
+                    answer: 1,
+                    desc: "Belajar dengan sungguh-sungguh adalah kewajiban utama agar hak bercita-cita dapat tercapai."
+                },
+                {
+                    q: "[HOTS] Desa Sukamaju mengalami banjir saat hujan deras karena selokan tersumbat sampah plastik. Solusi terbaik yang mencerminkan pelaksanaan kewajiban warga adalah...",
+                    options: [
+                        "Pindah rumah ke tempat lain",
+                        "Mengadakan kerja bakti pembersihan selokan dan membuat aturan larangan buang sampah",
+                        "Menyalahkan pemerintah setempat saja",
+                        "Membiarkan air surut sendiri"
+                    ],
+                    answer: 1,
+                    desc: "Kerja bakti dan membuat aturan lingkungan adalah langkah nyata tanggung jawab warga."
+                },
+                {
+                    q: "[HOTS] Mengapa pelaksanaan kewajiban harus didahulukan daripada pemenuhan hak?",
+                    options: [
+                        "Agar kita dinilai sombong oleh orang lain",
+                        "Karena hak akan tercipta secara adil setelah kewajiban terlaksana",
+                        "Karena hak tidak penting",
+                        "Supaya dipuji oleh guru"
+                    ],
+                    answer: 1,
+                    desc: "Kewajiban menciptakan kondisi yang memungkinkan hak setiap orang dapat terpenuhi secara adil."
+                },
+                {
+                    q: "[HOTS] Di perpustakaan, Rani berbicara sangat keras sehingga mengganggu kawan lainnya. Rani telah melanggar...",
+                    options: [
+                        "Hak teman lain untuk belajar dengan tenang",
+                        "Kewajiban petugas perpustakaan",
+                        "Hak dirinya sendiri",
+                        "Tidak melanggar apapun"
+                    ],
+                    answer: 0,
+                    desc: "Suara gaduh Rani mengganggu hak kenyamanan pengunjung perpustakaan lainnya."
+                },
+                {
+                    q: "[HOTS] Setiap anak berhak mendapat pelayanan kesehatan. Bentuk kewajiban anak untuk menjaga kesehatannya adalah...",
+                    options: [
+                        "Makan makanan sembarangan",
+                        "Mandi teratur, makan makanan bergizi, dan menjaga kebersihan diri",
+                        "Tidak mau disuntik vaksin",
+                        "Tidur larut malam"
+                    ],
+                    answer: 1,
+                    desc: "Menjaga kebersihan dan pola hidup sehat adalah kewajiban pribadi menunjang hak kesehatan."
+                },
+                {
+                    q: "[HOTS] Manakah pasangan Hak dan Kewajiban siswa yang Paling Tepat?",
+                    options: [
+                        "Hak: Dapat nilai bagus | Kewajiban: Menyontek saat ujian",
+                        "Hak: Menggunakan komputer sekolah | Kewajiban: Merawat & tidak merusak komputer",
+                        "Hak: Berbuat bising | Kewajiban: Diam di kelas",
+                        "Hak: Bermain | Kewajiban: Membolos"
+                    ],
+                    answer: 1,
+                    desc: "Menggunakan fasilitas adalah hak, merawatnya adalah kewajiban beriringan."
+                },
+                {
+                    q: "[HOTS] Jika di suatu kelas semua siswa hanya menuntut hak tanpa mau piket kelas, apa yang akan terjadi?",
+                    options: [
+                        "Kelas menjadi sangat bersih",
+                        "Kelas menjadi kotor, tidak nyaman, dan proses belajar terganggu",
+                        "Guru memberikan hadiah",
+                        "Siswa makin pintar"
+                    ],
+                    answer: 1,
+                    desc: "Tanpa kewajiban piket, kebersihan kelas tidak terjaga sehingga merugikan semua orang."
+                },
+                {
+                    q: "[HOTS] Sikap saling menghargai pendapat saat bermusyawarah di lingkungan masyarakat merupakan penerapan dari kewajiban sila ke-...",
+                    options: ["Sila ke-2", "Sila ke-3", "Sila ke-4", "Sila ke-1"],
+                    answer: 2,
+                    desc: "Musyawarah dan menghargai pendapat sesuai dengan Sila ke-4 Pancasila."
+                },
+                {
+                    q: "[HOTS] Bayu mendapatkan hak uang saku dari orang tuanya. Penggunaan uang saku yang bertanggung jawab adalah...",
+                    options: ["Menghabiskan semuanya untuk main game", "Menyisihkan sebagian untuk ditabung dan membeli kebutuhan sekolah", "Membeli barang yang tidak berguna", "Mentraktir semua orang sampai habis"],
+                    answer: 1,
+                    desc: "Menabung dan membeli kebutuhan berguna adalah wujud tanggung jawab atas hak uang saku."
+                },
+                {
+                    q: "[HOTS] Penjaga sekolah sudah membersihkan halaman. Perilaku kita sebagai siswa yang mencerminkan rasa menghargai adalah...",
+                    options: ["Membuang bekas bungkus makanan di lantai", "Selalu membuang sampah pada tempat sampah yang disediakan", "Menyuruh penjaga sekolah menyapu lagi", "Membiarkan teman mencoret meja"],
+                    answer: 1,
+                    desc: "Membuang sampah pada tempatnya menghargai usaha dan kerja keras penjaga sekolah."
+                }
+            ]
+        };
+
+        /* ==========================================================================
+           3. GAME STATE MANAGEMENT
+           ========================================================================== */
+        let currentUser = {
+            id: '',
+            name: '',
+            class: '',
+            avatar: '🦸‍♂️',
+            totalScore: 0,
+            unlockedLevel: 1,
+            correctCount: 0,
+            wrongCount: 0,
+            startTime: null,
+            endTime: null
+        };
+
+        let currentLevel = 1;
+        let currentQuestionIdx = 0;
+        let levelScore = 0;
+        let timerInterval = null;
+        let timerSeconds = 15;
+        let questionStartTime = 0;
+
+        /* ==========================================================================
+           4. ROUTING & NAVIGATION
+           ========================================================================== */
+        function hideAllSections() {
+            const sections = ['sec-home', 'sec-map', 'sec-gameplay', 'sec-summary', 'sec-finish', 'sec-leaderboard', 'sec-teacher'];
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('hidden');
+            });
+        }
+
+        function goToHome() {
+            hideAllSections();
+            document.getElementById('sec-home').classList.remove('hidden');
+            updateHeaderBadge();
+        }
+
+        function updateHeaderBadge() {
+            const badge = document.getElementById('user-badge-header');
+            if (currentUser.name) {
+                badge.classList.remove('hidden');
+                document.getElementById('header-avatar').innerText = currentUser.avatar;
+                document.getElementById('header-username').innerText = currentUser.name;
+                document.getElementById('header-userclass').innerText = currentUser.class;
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        /* Registration Modal Functions */
+        function openRegistrationModal() {
+            document.getElementById('modal-reg').classList.remove('hidden');
+        }
+
+        function closeRegistrationModal() {
+            document.getElementById('modal-reg').classList.add('hidden');
+        }
+
+        function handleStartGame(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value.trim();
+            const cls = document.getElementById('reg-class').value;
+            const avatar = document.getElementById('reg-avatar').value;
+
+            if (!name) return;
+
+            currentUser.id = 'USR-' + Date.now();
+            currentUser.name = name;
+            currentUser.class = cls;
+            currentUser.avatar = avatar;
+            currentUser.startTime = new Date().toLocaleTimeString('id-ID');
+            currentUser.totalScore = 0;
+            currentUser.unlockedLevel = 1;
+            currentUser.correctCount = 0;
+            currentUser.wrongCount = 0;
+
+            closeRegistrationModal();
+            updateHeaderBadge();
+            showMap();
+        }
+
+        /* MAP LEVEL SELECTION */
+        function showMap() {
+            hideAllSections();
+            document.getElementById('sec-map').classList.remove('hidden');
+            document.getElementById('map-total-score').innerText = currentUser.totalScore;
+
+            const container = document.getElementById('level-buttons-container');
+            container.innerHTML = '';
+
+            const levelTitles = [
+                { id: 1, title: 'Gerbang Pengetahuan', desc: 'Pengertian Hak & Kewajiban', icon: 'fa-door-open', color: 'from-blue-400 to-blue-600' },
+                { id: 2, title: 'Detektif Sekolah', desc: 'Hak & Kewajiban di Sekolah', icon: 'fa-school', color: 'from-green-400 to-green-600' },
+                { id: 3, title: 'Pahlawan Keluarga', desc: 'Hak & Kewajiban di Rumah', icon: 'fa-house-user', color: 'from-yellow-400 to-orange-500' },
+                { id: 4, title: 'Tantangan Kehidupan', desc: 'Hak & Kewajiban di Masyarakat', icon: 'fa-users', color: 'from-purple-400 to-purple-600' },
+                { id: 5, title: 'Duel Pahlawan Pancasila', desc: 'Tantangan HOTS Waktu Cepat!', icon: 'fa-bolt', color: 'from-red-500 to-rose-700' }
+            ];
+
+            levelTitles.forEach(lvl => {
+                const isUnlocked = lvl.id <= currentUser.unlockedLevel;
+                const card = document.createElement('div');
+                card.className = `w-full rounded-2xl p-4 flex items-center justify-between border-2 transition ${
+                    isUnlocked 
+                    ? 'bg-white border-slate-200 shadow-md hover:shadow-lg cursor-pointer' 
+                    : 'bg-slate-100 border-slate-200 opacity-60 cursor-not-allowed'
+                }`;
+
+                card.onclick = () => {
+                    if (isUnlocked) startLevel(lvl.id);
+                };
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${lvl.color} text-white flex items-center justify-center text-xl font-bold shadow-md">
+                            <i class="fa-solid ${lvl.icon}"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Level ${lvl.id}</span>
+                            <h4 class="font-title text-base font-bold text-slate-800 leading-tight">${lvl.title}</h4>
+                            <p class="text-xs text-slate-500">${lvl.desc}</p>
+                        </div>
+                    </div>
+                    <div>
+                        ${isUnlocked 
+                            ? `<span class="bg-brand-green text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-sm"><i class="fa-solid fa-play mr-1"></i> Main</span>` 
+                            : `<span class="bg-slate-300 text-slate-600 text-xs font-bold px-3 py-1.5 rounded-xl"><i class="fa-solid fa-lock mr-1"></i> Terkunci</span>`
+                        }
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        /* ==========================================================================
+           5. GAMEPLAY LOGIC
+           ========================================================================== */
+        function startLevel(lvlNumber) {
+            currentLevel = lvlNumber;
+            currentQuestionIdx = 0;
+            levelScore = 0;
+
+            hideAllSections();
+            document.getElementById('sec-gameplay').classList.remove('hidden');
+            
+            document.getElementById('game-level-badge').innerText = `Level ${lvlNumber}`;
+            document.getElementById('game-current-score').innerText = currentUser.totalScore;
+
+            const titles = ["", "Gerbang Pengetahuan", "Detektif Sekolah", "Pahlawan Keluarga", "Tantangan Kehidupan", "Duel Pahlawan Pancasila"];
+            document.getElementById('game-level-title').innerText = titles[lvlNumber];
+
+            // Timer Setup for Level 5
+            const timerBox = document.getElementById('timer-box');
+            if (lvlNumber === 5) {
+                timerBox.classList.remove('hidden');
+            } else {
+                timerBox.classList.add('hidden');
+            }
+
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const questions = QUESTION_BANK[`level${currentLevel}`];
+            const q = questions[currentQuestionIdx];
+
+            // Reset UI States
+            document.getElementById('feedback-box').classList.add('hidden');
+            document.getElementById('btn-next-question').classList.add('hidden');
+            document.getElementById('question-counter').innerText = `Soal ${currentQuestionIdx + 1} / ${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+
+            // Progress bar
+            const pct = ((currentQuestionIdx) / questions.length) * 100;
+            document.getElementById('game-progress-bar').style.width = `${pct}%`;
+
+            // Timer for Level 5
+            if (currentLevel === 5) {
+                resetTimer();
+            }
+
+            questionStartTime = Date.now();
+
+            // Render Options
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const labels = ['A', 'B', 'C', 'D'];
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `option-btn w-full bg-white hover:bg-slate-50 border-2 border-slate-200 text-slate-800 font-bold p-4 rounded-2xl text-left text-sm md:text-base flex items-center gap-3 shadow-sm transition btn-bounce`;
+                btn.onclick = () => checkAnswer(idx);
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 font-title font-bold flex items-center justify-center shrink-0 border border-slate-300">${labels[idx]}</span>
+                    <span>${optText}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerSeconds = 15;
+            document.getElementById('timer-text').innerText = `${timerSeconds}s`;
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                document.getElementById('timer-text').innerText = `${timerSeconds}s`;
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    checkAnswer(-1); // Time out wrong
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selectedIdx) {
+            clearInterval(timerInterval);
+            const questions = QUESTION_BANK[`level${currentLevel}`];
+            const q = questions[currentQuestionIdx];
+            const optionBtns = document.querySelectorAll('.option-btn');
+
+            // Disable all option buttons
+            optionBtns.forEach(btn => btn.onclick = null);
+
+            const isCorrect = (selectedIdx === q.answer);
+            const feedbackBox = document.getElementById('feedback-box');
+            const feedbackIconBg = document.getElementById('feedback-icon-bg');
+            const feedbackIcon = document.getElementById('feedback-icon');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackDesc = document.getElementById('feedback-desc');
+
+            if (isCorrect) {
+                sfx.playCorrect();
+                // Speed bonus calculation
+                const timeTakenSec = (Date.now() - questionStartTime) / 1000;
+                let speedBonus = 0;
+                if (timeTakenSec < 5) speedBonus = 50;
+                else if (timeTakenSec < 10) speedBonus = 25;
+
+                const pts = 100 + speedBonus;
+                levelScore += pts;
+                currentUser.totalScore += pts;
+                currentUser.correctCount++;
+
+                document.getElementById('game-current-score').innerText = currentUser.totalScore;
+
+                // UI Styling Correct
+                if (selectedIdx >= 0) {
+                    optionBtns[selectedIdx].classList.remove('bg-white', 'border-slate-200');
+                    optionBtns[selectedIdx].classList.add('bg-green-100', 'border-brand-green', 'text-green-900');
+                }
+
+                feedbackBox.className = "p-4 rounded-2xl border-2 bg-green-50 border-green-200 animate-fade-in";
+                feedbackIconBg.className = "w-10 h-10 rounded-xl flex items-center justify-center text-white text-xl shrink-0 bg-brand-green shadow-md";
+                feedbackIcon.className = "fa-solid fa-check";
+                feedbackTitle.className = "font-title font-bold text-lg leading-none mb-1 text-green-800";
+                feedbackTitle.innerText = speedBonus > 0 ? `HEBAT! KAMU BENAR! (+${pts} Poin)` : `HEBAT! KAMU BENAR! (+100 Poin)`;
+                feedbackDesc.innerText = q.desc;
+
+                // Trigger mini confetti
+                confetti({ particleCount: 30, spread: 60, origin: { y: 0.7 } });
+
+            } else {
+                sfx.playWrong();
+                currentUser.wrongCount++;
+
+                // Highlight wrong and correct answer
+                if (selectedIdx >= 0) {
+                    optionBtns[selectedIdx].classList.remove('bg-white', 'border-slate-200');
+                    optionBtns[selectedIdx].classList.add('bg-red-100', 'border-brand-red', 'text-red-900');
+                }
+                optionBtns[q.answer].classList.remove('bg-white', 'border-slate-200');
+                optionBtns[q.answer].classList.add('bg-green-100', 'border-brand-green', 'text-green-900');
+
+                feedbackBox.className = "p-4 rounded-2xl border-2 bg-red-50 border-red-200 animate-fade-in";
+                feedbackIconBg.className = "w-10 h-10 rounded-xl flex items-center justify-center text-white text-xl shrink-0 bg-brand-red shadow-md";
+                feedbackIcon.className = "fa-solid fa-xmark";
+                feedbackTitle.className = "font-title font-bold text-lg leading-none mb-1 text-red-800";
+                feedbackTitle.innerText = selectedIdx === -1 ? "WAKTU HABIS! YUK COBA LAGI!" : "YUK, COBA LAGI!";
+                feedbackDesc.innerText = q.desc;
+            }
+
+            feedbackBox.classList.remove('hidden');
+            document.getElementById('btn-next-question').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            const questions = QUESTION_BANK[`level${currentLevel}`];
+            currentQuestionIdx++;
+
+            if (currentQuestionIdx < questions.length) {
+                renderQuestion();
+            } else {
+                finishLevel();
+            }
+        }
+
+        function finishLevel() {
+            sfx.playFanfare();
+            // Level Bonus
+            currentUser.totalScore += 100;
+            if (currentUser.unlockedLevel === currentLevel && currentUser.unlockedLevel < 5) {
+                currentUser.unlockedLevel++;
+            }
+
+            hideAllSections();
+            document.getElementById('sec-summary').classList.remove('hidden');
+            document.getElementById('summary-correct').innerText = `${10 - (10 - (levelScore >= 100 ? Math.floor(levelScore/100) : 0))} / 10`;
+            document.getElementById('summary-bonus').innerText = `+100 Poin Level`;
+            document.getElementById('summary-level-score').innerText = `${levelScore + 100} Poin`;
+
+            // Save state to Firebase / Local
+            window.saveScoreToCloud(currentUser);
+
+            // Celebration Confetti
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+
+        function returnToMap() {
+            if (currentUser.unlockedLevel > 5 || (currentLevel === 5 && currentQuestionIdx >= 10)) {
+                showFinishScreen();
+            } else {
+                showMap();
+            }
+        }
+
+        function showFinishScreen() {
+            hideAllSections();
+            document.getElementById('sec-finish').classList.remove('hidden');
+
+            currentUser.endTime = new Date().toLocaleTimeString('id-ID');
+            currentUser.totalScore += 250; // Completion Bonus!
+
+            document.getElementById('cert-id').innerText = currentUser.id;
+            document.getElementById('cert-user-name').innerText = currentUser.name;
+            document.getElementById('cert-user-class').innerText = `${currentUser.class}`;
+            document.getElementById('cert-final-score').innerText = currentUser.totalScore;
+            document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            window.saveScoreToCloud(currentUser);
+            confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+        }
+
+        function confirmExitLevel() {
+            if (confirm("Apakah kamu yakin ingin keluar dari level ini? Kemajuan level ini akan diulang.")) {
+                clearInterval(timerInterval);
+                showMap();
+            }
+        }
+
+        /* ==========================================================================
+           6. LEADERBOARD SYSTEM
+           ========================================================================== */
+        function showLeaderboard() {
+            hideAllSections();
+            document.getElementById('sec-leaderboard').classList.remove('hidden');
+            loadLeaderboardData();
+        }
+
+        function loadLeaderboardData() {
+            const tbody = document.getElementById('leaderboard-tbody');
+            tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Memuat data papan peringkat...</td></tr>`;
+
+            window.fetchCloudLeaderboard((data) => {
+                tbody.innerHTML = '';
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Belum ada data pahlawan cilik. Jadilah yang pertama!</td></tr>`;
+                    return;
+                }
+
+                data.forEach((item, index) => {
+                    const tr = document.createElement('tr');
+                    let medal = `<span class="font-bold text-slate-500">${index + 1}</span>`;
+                    if (index === 0) medal = `<span class="text-xl">🥇</span>`;
+                    if (index === 1) medal = `<span class="text-xl">🥈</span>`;
+                    if (index === 2) medal = `<span class="text-xl">🥉</span>`;
+
+                    tr.className = index < 3 ? 'bg-amber-50/50' : '';
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 text-center">${medal}</td>
+                        <td class="py-3 px-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl">${item.avatar || '🦸‍♂️'}</span>
+                                <div>
+                                    <p class="font-bold text-slate-800 leading-tight">${item.name}</p>
+                                    <p class="text-[10px] text-slate-400">Level ${item.unlockedLevel || 1}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-3 px-3 text-slate-600">${item.class}</td>
+                        <td class="py-3 px-3 text-center text-brand-green font-bold">${item.correctCount || 0}</td>
+                        <td class="py-3 px-3 text-right font-title text-base font-black text-brand-orange">${item.totalScore}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
+        }
+
+        function saveToLocalStorage(userSession) {
+            let local = getLocalLeaderboard();
+            const idx = local.findIndex(u => u.id === userSession.id);
+            if (idx >= 0) {
+                local[idx] = userSession;
+            } else {
+                local.push(userSession);
+            }
+            local.sort((a, b) => b.totalScore - a.totalScore);
+            localStorage.setItem('pancasila_game_leaderboard', JSON.stringify(local));
+        }
+
+        function getLocalLeaderboard() {
+            const data = localStorage.getItem('pancasila_game_leaderboard');
+            return data ? JSON.parse(data) : [];
+        }
+
+        /* ==========================================================================
+           7. TEACHER AREA & AUTHENTICATION
+           ========================================================================== */
+        function openTeacherAuthModal() {
+            document.getElementById('modal-teacher-auth').classList.remove('hidden');
+        }
+
+        function closeTeacherAuthModal() {
+            document.getElementById('modal-teacher-auth').classList.add('hidden');
+            document.getElementById('pin-error-msg').classList.add('hidden');
+            document.getElementById('teacher-pin').value = '';
+        }
+
+        function handleTeacherLogin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('teacher-pin').value.trim();
+            if (pin === '1234') { // Default Teacher PIN
+                closeTeacherAuthModal();
+                showTeacherDashboard();
+            } else {
+                document.getElementById('pin-error-msg').classList.remove('hidden');
+            }
+        }
+
+        function showTeacherDashboard() {
+            hideAllSections();
+            document.getElementById('sec-teacher').classList.remove('hidden');
+            loadTeacherData();
+        }
+
+        function loadTeacherData() {
+            const tbody = document.getElementById('teacher-tbody');
+            tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-400">Memuat data siswa...</td></tr>`;
+
+            window.fetchCloudLeaderboard((data) => {
+                tbody.innerHTML = '';
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-400">Belum ada data siswa yang tersimpan.</td></tr>`;
+                    document.getElementById('teacher-stat-total').innerText = '0';
+                    document.getElementById('teacher-stat-avg').innerText = '0';
+                    document.getElementById('teacher-stat-high').innerText = '0';
+                    return;
+                }
+
+                let totalScoreSum = 0;
+                let maxScore = 0;
+
+                data.forEach((item) => {
+                    totalScoreSum += item.totalScore;
+                    if (item.totalScore > maxScore) maxScore = item.totalScore;
+
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-50";
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 font-bold text-slate-800">${item.name}</td>
+                        <td class="py-3 px-3 text-slate-600">${item.class}</td>
+                        <td class="py-3 px-3 text-center"><span class="bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full text-[10px]">Level ${item.unlockedLevel || 1}</span></td>
+                        <td class="py-3 px-3 text-center"><span class="text-green-600 font-bold">${item.correctCount || 0}</span> / <span class="text-red-500 font-bold">${item.wrongCount || 0}</span></td>
+                        <td class="py-3 px-3 text-right font-title text-sm font-bold text-brand-orange">${item.totalScore}</td>
+                        <td class="py-3 px-3 text-center text-slate-400 text-[11px]">${item.endTime || item.startTime || '-'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                document.getElementById('teacher-stat-total').innerText = data.length;
+                document.getElementById('teacher-stat-avg').innerText = Math.round(totalScoreSum / data.length);
+                document.getElementById('teacher-stat-high').innerText = maxScore;
+            });
+        }
+
+        function exportToCSV() {
+            window.fetchCloudLeaderboard((data) => {
+                if (!data || data.length === 0) {
+                    alert("Tidak ada data siswa untuk diunduh.");
+                    return;
+                }
+                let csvContent = "data:text/csv;charset=utf-8,ID,Nama Siswa,Kelas,Level Terakhir,Jawaban Benar,Jawaban Salah,Total Skor,Waktu Selesai\n";
+                data.forEach(u => {
+                    csvContent += `"${u.id}","${u.name}","${u.class}","Level ${u.unlockedLevel || 1}","${u.correctCount || 0}","${u.wrongCount || 0}","${u.totalScore}","${u.endTime || u.startTime || '-'}"\n`;
+                });
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", `Hasil_Misi_Pahlawan_Pancasila_${new Date().toISOString().slice(0,10)}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        }
+
+        function resetLeaderboardConfirm() {
+            if (confirm("APAKAH ANDA YAKIN? Seluruh data hasil permainan siswa di Firestore/Lokal akan dihapus secara permanen.")) {
+                window.clearCloudLeaderboard();
+                setTimeout(() => {
+                    loadTeacherData();
+                    alert("Data berhasil di-reset.");
+                }, 1000);
+            }
+        }
+
+        /* ==========================================================================
+           8. AUXILIARY UTILITIES & INSTRUCTIONS
+           ========================================================================== */
+        function showInstructions() {
+            document.getElementById('modal-instructions').classList.remove('hidden');
+        }
+
+        function closeInstructions() {
+            document.getElementById('modal-instructions').classList.add('hidden');
+        }
+
+        function updateAvatarPreview(val) {
+            currentUser.avatar = val;
+        }
+
+        // Initialize default view on DOM Load
+        window.onload = function() {
+            goToHome();
+        };
+    </script>
+</body>
+</html>
